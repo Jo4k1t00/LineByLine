@@ -110,4 +110,22 @@ public class TerminalTextoManager : MonoBehaviour
             ClearHighlight();
         }
     }
+
+    public bool ModoManual => explanationPanel != null && explanationPanel.activeSelf;
+
+    // Ilumina varias líneas a la vez. Cada bit de la máscara es una línea (bit 3 = línea 3)
+    public void HighlightMask(int mascara)
+    {
+        if (rawLines == null) return;
+        var sb = new StringBuilder();
+
+        for (int i = 0; i < rawLines.Length; i++)
+        {
+            string f = SyntaxHighlighter.FormatCode(rawLines[i]);
+            if ((mascara & (1 << i)) != 0) f = MarkLinea + f + "</mark>";
+            sb.Append(f);
+            if (i < rawLines.Length - 1) sb.Append('\n');
+        }
+        displayText.text = sb.ToString();
+    }
 }

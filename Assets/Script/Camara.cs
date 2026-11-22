@@ -5,7 +5,7 @@ public class Camara : MonoBehaviour
     public Transform Player;
 
     [SerializeField]
-    private float _sensibilidad = 100f;
+    private float _sensibilidad = 3f;
     private float _rotacionVertical = 0;
     private float _rotacionHorizontal = 0;
 
@@ -27,8 +27,6 @@ public class Camara : MonoBehaviour
     {
         float mouseX = Input.GetAxis("Mouse X") * _sensibilidad;
         float mouseY = Input.GetAxis("Mouse Y")*_sensibilidad;
-
-        _rotacionHorizontal += mouseX;
         _rotacionVertical -= mouseY;
 
         _rotacionVertical = Mathf.Clamp(_rotacionVertical,-90,90);
