@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3afd99f449922e94ea721f58e9ca0ba5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - terminal: {instanceID: 0}
+  - codigo: {instanceID: 0}
+  - prefab: {instanceID: 0}
+  - punta: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,5 @@
+void Disparar()
+{
+    var bala = Instantiate(prefab, punta.position, punta.rotation);
+    bala.GetComponent<Rigidbody>().AddForce(punta.forward * 20, ForceMode.Impulse);
+}
