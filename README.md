@@ -4,6 +4,8 @@
 
 <img width="800" height="450" alt="Gif1_CLearning-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/4ea09781-8b7a-4cd1-8ba9-16606d69a31b" />
 
+<img width="800" height="450" alt="Gif2_CLearning-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/73b40b5c-e197-451a-afbb-9fd8af952a67" />
+
 ## ¿Qué es?
 
 Un proyecto en Unity 6 para aprender programación de gameplay. Cada mecánica
