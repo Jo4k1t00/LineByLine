@@ -17,9 +17,6 @@ principiantes.
 2. Explicacion Manual con los fragmentos deztacados del codigos con respectiva definicion.
 3. Sistema Reutilizable: crear una demo nueva = una clase + un .txt
 
-## Proceso:
-
-
 
 ## Herramientas Usadas
 - C#
