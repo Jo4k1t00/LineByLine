@@ -10,17 +10,17 @@ public class PlayerCodeView : MonoBehaviour
 
     // Un bit por línea del Player.txt
     const int MOVER = (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6);
-    const int SALTAR = (1 << 9) | (1 << 10) | (1 << 11) | (1 << 12);
-    const int MIRAR = (1 << 15) | (1 << 16);
-    const int APUNTAR = (1 << 19) | (1 << 20);
-    const int INTERACTAR = (1 << 21) | (1 << 22);
+    const int SALTAR = (1 << 9) | (1 << 10) | (1 << 11) | (1 << 12) | (1 << 13) | (1 << 14) | (1 << 15);
+    const int MIRAR = (1 << 18) | (1 << 19);
+    const int APUNTAR = (1 << 22) | (1 << 23);
+    const int INTERACTUAR = (1 << 24) | (1 << 25);
 
     readonly float[] hasta = new float[32];   // hasta cuándo sigue encendida cada línea
     int ultimaMascara = -1;
 
     void OnEnable() { interaccion.AlInteractuar += OnInteractuar; }
     void OnDisable() { interaccion.AlInteractuar -= OnInteractuar; }
-    void OnInteractuar() => Encender(INTERACTAR, 0.6f);
+    void OnInteractuar() => Encender(INTERACTUAR, 0.6f);
 
     void Start()
     {
@@ -35,8 +35,8 @@ public class PlayerCodeView : MonoBehaviour
 
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             Encender(MOVER, 0.2f);
-        if (!controller.isGrounded)
-            Encender(SALTAR, 0.1f);
+        if (!controller.isGrounded || Input.GetButton("Jump"))
+            Encender(SALTAR, 0.3f);
         if (Mathf.Abs(Input.GetAxis("Mouse X")) > 0.01f)
             Encender(MIRAR, 0.2f);
         if (interaccion.Mirando)

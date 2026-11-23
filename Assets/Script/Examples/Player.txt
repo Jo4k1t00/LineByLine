@@ -7,7 +7,10 @@ void Update()
     controller.Move(move * speed * Time.deltaTime);
 
     // SALTAR
-    if (Input.GetButtonDown("Jump") && controller.isGrounded)
+    if (controller.isGrounded) tiempoSuelo = Time.time;
+    if (Input.GetButtonDown("Jump")) tiempoSalto = Time.time;
+    if (coyote >= Time.time - tiempoSuelo
+        && buffer >= Time.time - tiempoSalto)
         velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
     velocity.y += gravity * Time.deltaTime;
     controller.Move(velocity * Time.deltaTime);

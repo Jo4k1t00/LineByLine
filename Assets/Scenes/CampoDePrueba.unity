@@ -1634,7 +1634,7 @@ Transform:
   m_GameObject: {fileID: 420983836}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.35, y: 0.9, z: -6.56}
+  m_LocalPosition: {x: -7.0203514, y: 0.110000014, z: -21.51824}
   m_LocalScale: {x: 0.34946, y: 0.34946, z: 0.34946}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2169,7 +2169,7 @@ Transform:
   m_GameObject: {fileID: 616166186}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.2201, y: 3.86, z: -21.29}
+  m_LocalPosition: {x: -23.2201, y: 2.96, z: -21.29}
   m_LocalScale: {x: 13.506126, y: 7.6742, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3188,7 +3188,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -25.64, y: 1.81}
+  m_AnchoredPosition: {x: -25.64, y: 0.91}
   m_SizeDelta: {x: 406.4243, y: 362.336}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &908844158
@@ -4398,6 +4398,8 @@ MonoBehaviour:
   _speed: 3
   heightJump: 1.5
   gravity: -9.81
+  coyoteTime: 0.1
+  jumpBuffer: 0.1
 --- !u!136 &1579278874
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4487,7 +4489,7 @@ Transform:
   m_GameObject: {fileID: 1579278871}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.4, y: 1, z: -26}
+  m_LocalPosition: {x: -26.4, y: 0, z: -26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4555,40 +4557,51 @@ MonoBehaviour:
     texto: "Mueve al jugador. Multiplicar por Time.deltaTime hace que la velocidad
       sea igual en un PC r\xE1pido o lento."
   - linea: 9
-    fragmento: controller.isGrounded
-    texto: "Solo puedes saltar si tocas el suelo. isGrounded responde s\xED o no."
+    fragmento: controller.isGrounded) tiempoSuelo = Time.time
+    texto: "Cada frame que tocas el suelo, el juego anota la hora. As\xED sabe cu\xE1l
+      fue el \xFAltimo momento en que pisaste el suelo."
   - linea: 10
-    fragmento: Mathf.Sqrt(jumpHeight * -2f * gravity)
-    texto: "Esta f\xF3rmula calcula con qu\xE9 velocidad hay que salir hacia arriba
-      para llegar justo a la altura de salto deseada."
+    fragmento: tiempoSalto = Time.time
+    texto: "Al pulsar Espacio no saltas todav\xEDa: solo se anota cu\xE1ndo pulsaste.
+      Esto es el jump buffer, y evita que se pierda un salto pulsado un instante
+      antes de aterrizar."
   - linea: 11
+    fragmento: coyote >= Time.time - tiempoSuelo
+    texto: "Esto es el coyote time: aunque ya hayas dejado el borde, tienes unos
+      0.1 segundos para saltar. Se llama as\xED por el Coyote del Correcaminos, que
+      corre en el aire antes de caer."
+  - linea: 12
+    fragmento: buffer >= Time.time - tiempoSalto
+    texto: "Comprueba que la pulsaci\xF3n de Espacio fue reciente. Si las dos condiciones
+      se cumplen, el salto ocurre."
+  - linea: 13
+    fragmento: Mathf.Sqrt(jumpHeight * -2f * gravity)
+    texto: "Esta f\xF3rmula calcula la velocidad inicial para llegar justo a la altura
+      de salto deseada."
+  - linea: 14
     fragmento: velocity.y += gravity * Time.deltaTime
     texto: En cada frame la gravedad le quita velocidad hacia arriba. Por eso el
       salto sube, frena y cae.
-  - linea: 12
+  - linea: 18
     fragmento: controller.Move(velocity * Time.deltaTime)
     texto: "Aplica el movimiento vertical. El CharacterController choca con paredes
       y suelo, as\xED que no los atraviesas."
-  - linea: 15
-    fragmento: Input.GetAxis("Mouse X") * sensibilidad
-    texto: "Mide cu\xE1nto movi\xF3 el mouse a los lados. La sensibilidad lo hace
-      m\xE1s o menos r\xE1pido."
-  - linea: 16
+  - linea: 19
     fragmento: player.Rotate(Vector3.up * mouseX)
     texto: "Gira todo el cuerpo a los lados. La c\xE1mara sube y baja por separado,
       para que no te des vuelta de cabeza."
-  - linea: 19
+  - linea: 22
     fragmento: Physics.Raycast(ray, out hit, 4f)
     texto: "Un raycast es un rayo invisible que sale de tu c\xE1mara. Si choca con
       algo a menos de 4 metros, te avisa. Es lo que pone rosada la mirilla."
-  - linea: 20
+  - linea: 23
     fragmento: TryGetComponent(out IInteractable obj)
     texto: "Le pregunta al objeto: \"\xBFsabes interactuar?\". Si tiene IInteractable,
       puede ser un ca\xF1\xF3n, un bot\xF3n, lo que sea."
-  - linea: 21
+  - linea: 24
     fragmento: Input.GetKeyDown(KeyCode.E)
     texto: Comprueba si acabas de pulsar E en este frame.
-  - linea: 22
+  - linea: 25
     fragmento: obj.Interact()
     texto: "No sabemos qu\xE9 objeto es, solo le decimos \"interact\xFAa\" y \xE9l
       sabe qu\xE9 hacer: el ca\xF1\xF3n dispara, el bot\xF3n abre un panel."
@@ -4984,7 +4997,7 @@ Transform:
   m_GameObject: {fileID: 1661169722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -5243,7 +5256,7 @@ Transform:
   m_GameObject: {fileID: 1741103275}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2588186, y: -0, z: -0, w: 0.965926}
-  m_LocalPosition: {x: 2.09035, y: 0.5, z: -4.85176}
+  m_LocalPosition: {x: -7.28, y: -0.29, z: -19.81}
   m_LocalScale: {x: 1, y: 1.855, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5312,7 +5325,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762314953}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -4.16}
+  m_LocalPosition: {x: 0, y: 0, z: -19.11824}
   m_LocalScale: {x: 0.00634084, y: 0.00634084, z: 0.00634084}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5326,7 +5339,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 4.9486, y: 2.2304}
+  m_AnchoredPosition: {x: -4.421751, y: 1.4404001}
   m_SizeDelta: {x: 571.5372, y: 639.0156}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1762314955
@@ -5513,7 +5526,7 @@ GameObject:
   - component: {fileID: 1764714221}
   - component: {fileID: 1764714220}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: PuntoDeInteraccion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6083,7 +6096,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -20.47, y: 2.86}
+  m_AnchoredPosition: {x: -20.47, y: 1.9599999}
   m_SizeDelta: {x: 1300.6611, y: 1159.0737}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2008254895
@@ -6305,14 +6318,14 @@ SceneRoots:
   m_Roots:
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 1661169726}
   - {fileID: 1579278877}
-  - {fileID: 1741103279}
   - {fileID: 1764714223}
-  - {fileID: 122511168}
+  - {fileID: 1741103279}
   - {fileID: 1762314954}
-  - {fileID: 1967588745}
   - {fileID: 420983840}
+  - {fileID: 1661169726}
+  - {fileID: 122511168}
+  - {fileID: 1967588745}
   - {fileID: 558994253}
   - {fileID: 894156175}
   - {fileID: 616166190}
