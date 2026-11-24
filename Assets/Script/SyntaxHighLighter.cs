@@ -1,17 +1,20 @@
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public static class SyntaxHighlighter
+//static significa que no necesitas crear un objeto ni ponerlo en la escena.
+public static class SyntaxHighlighter//lo llamarias directo con .FormatCode(...)
 {
-    // Colores estilo Visual Studio (puedes cambiarlos a tu gusto)
+    //colores en hexadecimal, adaptados en el color visualstudio
+    //const es un valor fijo que no cambia.
     private const string KeywordColor = "#569CD6"; // Azul para public, class, void
     private const string TypeColor = "#4EC9B0";    // Verde claro para MonoBehaviour, Transform, etc.
 
     public static string FormatCode(string rawCode)
     {
+        //recibe una linea de codigo en texto plano y devuelve la misma linea con etiquetas de color
         string formattedCode = rawCode;
 
-        // 1. Colorear palabras clave comunes de C#
+        //lista de palabras clave en string y devuelve las palabras clave con un color.
         string[] keywords = { "public", "private", "protected", "void", "class", "return", "if", "else" };
         foreach (var kw in keywords)
         {
@@ -27,5 +30,7 @@ public static class SyntaxHighlighter
         }
 
         return formattedCode;
+
+        //ojo el color 4EC9B0 contiene letras y numeros si algundia agregas una palabra clave que coincida con parte de la etiqueta podria romper el formato
     }
 }
