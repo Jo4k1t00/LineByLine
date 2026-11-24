@@ -6,6 +6,10 @@
 
 <img width="800" height="450" alt="Gif2_CLearning-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/73b40b5c-e197-451a-afbb-9fd8af952a67" />
 
+## Descarga de ARCHIVO .ZIP
+
+[Ejecutable](https://github.com/Jo4k1t00/LineByLine/releases/tag/v1.0.0-alpha)
+
 ## ¿Qué es?
 
 Un proyecto en Unity 6 para aprender programación de gameplay. Cada mecánica
